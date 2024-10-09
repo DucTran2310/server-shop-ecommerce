@@ -1,12 +1,18 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
+import userRouter from '@routes/user.router'
+import cors from 'cors'
 
 dotenv.config()
 
 const dbURL = `mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@cluster0.z9tcw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const app = express()
+app.use(express.json())
+app.use(cors())
+
+app.use('/auth', userRouter)
 
 const PORT = process.env.PORT || 8081;
 
@@ -20,7 +26,7 @@ const connectDB = async () => {
   }
 };
 
-connectDB()
+connectDB() 
   .then(() => {
     app.listen(PORT, () => {
       console.log(`:::Server is running at http://localhost:${PORT}`);
