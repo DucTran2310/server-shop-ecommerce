@@ -3,6 +3,8 @@ import { Request, Response, NextFunction } from "express"
 import bcrypt from "bcrypt"
 import { getAccessToken } from "@utils/getAccessToken"
 import { ObjectId } from "mongoose"
+import { generatorRandomText } from "@utils/generatorRandomText"
+import { generateDefaultAvatar } from "@utils/generatorAvatar"
 
 interface User {
   _id: ObjectId
@@ -17,7 +19,7 @@ const register = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { email, name, password, confirmPassword } = req.body
+  const { email, name, password, confirmPassword, photoUrl } = req.body
 
   try {
     if (password !== confirmPassword) {
@@ -46,6 +48,7 @@ const register = async (
       email,
       name,
       password: hashpassword,
+      photoUrl: photoUrl ?? generateDefaultAvatar(name)
     })
 
     await newUser.save()
@@ -139,4 +142,62 @@ const login = async (req: Request, res: Response, next: NextFunction): Promise<v
   }
 }
 
-export { register, login }
+const loginWithGoogle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+	const body = req.body;
+	const { email } = body;
+	try {
+		const user: any = await UserModel.findOne({ email });
+
+		if (user) {
+			await UserModel.findByIdAndUpdate(user._id, body);
+
+			const newUser: any = await UserModel.findById(user._id);
+
+			delete newUser._doc.password;
+
+			res.status(200).json({
+        error: false,
+				message: 'Đăng nhập thành công',
+				data: {
+					...newUser._doc,
+					token: await getAccessToken({
+						_id: newUser._id,
+						email: newUser.email,
+						rule: newUser.rule ?? 1,
+					}),
+				},
+			});
+		} else {
+			const salt = await bcrypt.genSalt(10);
+			const hashPassword = await bcrypt.hash(generatorRandomText(6), salt);
+
+			body.password = hashPassword;
+
+			const newUser: any = new UserModel(body);
+			await newUser.save();
+
+			delete newUser._doc.password;
+
+			res.status(200).json({
+				message: 'Đăng ký thành công',
+				data: {
+					...newUser._doc,
+					token: await getAccessToken({
+						_id: newUser._id,
+						email: newUser.email,
+						rule: 1,
+					}),
+				},
+			});
+		}
+	} catch (error: any) {
+		res.status(404).json({
+      error: true,
+			message: error.message,
+      data: null
+		});
+    return
+	}
+};
+
+export { register, login, loginWithGoogle }
