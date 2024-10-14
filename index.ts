@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import userRouter from '@routes/user.router'
+import productRouter from '@routes/product.router'
 import cors from 'cors'
 
 dotenv.config()
@@ -13,6 +14,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/auth', userRouter)
+app.use('/product', productRouter)
 
 const PORT = process.env.PORT || 8081;
 

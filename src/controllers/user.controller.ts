@@ -2,7 +2,7 @@ import UserModel from "@models/userModel"
 import { Request, Response, NextFunction } from "express"
 import bcrypt from "bcrypt"
 import { getAccessToken } from "@utils/getAccessToken"
-import { ObjectId } from "mongoose"
+import mongoose, { ObjectId } from "mongoose"
 import { generatorRandomText } from "@utils/generatorRandomText"
 import { generateDefaultAvatar } from "@utils/generatorAvatar"
 
@@ -198,6 +198,45 @@ const loginWithGoogle = async (req: Request, res: Response, next: NextFunction):
 		});
     return
 	}
+}
+
+const refreshToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const { id } = req.query;
+
+  try {
+    console.log(':::ID: ', id)
+    if (!id || typeof id !== "string" || !mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error("Invalid or missing ID");
+    }
+
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    const user = await UserModel.findById(objectId);
+    if (!user) {
+      res.status(401).json({
+        error: true,
+        message: "Không tìm thấy thông tin người dùng",
+      })
+      return
+    }
+
+    const token = await getAccessToken({
+      _id: objectId,
+      email: user.email,
+      rule: user.rule,
+    });
+
+    res.status(200).json({
+      error: false,
+      message: "Token refreshed successfully",
+      data: token,
+    });
+  } catch (error) {
+    res.status(404).json({
+      error: true,
+      message: (error as Error).message,
+    });
+  }
 };
 
-export { register, login, loginWithGoogle }
+export { register, login, loginWithGoogle, refreshToken }
