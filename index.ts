@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import userRouter from '~/routes/user.router';
 import productRouter from '~/routes/product.router';
+import supplierRouter from '~/routes/supplier.router'
 
 dotenv.config()
 
@@ -15,6 +16,7 @@ app.use(cors())
 
 app.use('/auth', userRouter)
 app.use('/product', productRouter)
+app.use('/supplier', supplierRouter)
 
 const PORT = process.env.PORT || 8081;
 

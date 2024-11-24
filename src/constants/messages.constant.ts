@@ -72,6 +72,14 @@ export const USER_MESSAGE = {
   VERIFY_FORGOT_PASSWORD_TOKEN_SUCCESS: 'Xác minh mã thông báo quên mật khẩu thành công'
 } as const
 
+export const SUPPLIER_MESSAGE = {
+
+  //Validate
+
+  //Message success
+  ADD_NEW_SUPPLIER_SUCCESS: "Thêm nhà cung cấp thành công"
+} as const
+
 export const SERVER_MESSAGE = {
   SERVER_ERROR: "Có lỗi xảy ra trên máy chủ"
 } as const

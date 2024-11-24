@@ -4,7 +4,7 @@ import { sendErrorResponse } from './responseHelper';
 import { HttpStatusCode } from '~/constants/httpStatus.enum';
 import { USER_MESSAGE } from '~/constants/messages.constant';
 
-const handleRegisterValidationErrors = (
+const handleValidationErrors = (
   req: Request,
   res: Response,  // Không cần generic ở đây
   next: NextFunction
@@ -33,4 +33,4 @@ const handleRegisterValidationErrors = (
   }
 };
 
-export default handleRegisterValidationErrors;
+export default handleValidationErrors;
