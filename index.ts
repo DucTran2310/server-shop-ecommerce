@@ -1,9 +1,9 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
-import userRouter from '@routes/user.router'
-import productRouter from '@routes/product.router'
 import cors from 'cors'
+import userRouter from '~/routes/user.router';
+import productRouter from '~/routes/product.router';
 
 dotenv.config()
 
@@ -28,7 +28,7 @@ const connectDB = async () => {
   }
 };
 
-connectDB() 
+connectDB()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`:::Server is running at http://localhost:${PORT}`);

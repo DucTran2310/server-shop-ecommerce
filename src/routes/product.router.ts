@@ -1,6 +1,6 @@
-import { getProducts } from "@controllers/product.controller";
 import { Router } from "express";
-import { verifyToken } from "../middlewares/verifyToken";
+import { verifyToken } from "../middlewares/verifyToken.middleware";
+import { getProducts } from "~/controllers/product.controller";
 
 const router = Router();
 

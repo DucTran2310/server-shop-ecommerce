@@ -1,0 +1,4 @@
+export enum UserErrorEnum {
+  ACCOUNTEXIST,
+  PASSWORD_NOT_MATCH_CONFIRM_PASSWORD
+}

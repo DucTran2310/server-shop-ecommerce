@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { ERROR_MESSAGE } from "~/constants/messages.constant";
 
 // Extend the Request interface to include a possible _id field
 interface CustomRequest extends Request {
@@ -18,7 +19,7 @@ export const verifyToken = async (
     if (!accessToken) {
       res.status(401).json({
         error: true,
-        message: "Bạn không có quyền truy cập",
+        message: ERROR_MESSAGE.NOT_PERMISSION,
       });
       return;
     }
@@ -31,7 +32,7 @@ export const verifyToken = async (
     if (!verify) {
       res.status(401).json({
         error: true,
-        message: "Bạn không có quyền truy cập",
+        message: ERROR_MESSAGE.NOT_PERMISSION,
       });
       return;
     }
@@ -40,7 +41,7 @@ export const verifyToken = async (
 
     next();
   } catch (error) {
-    res.status(401).json({ 
+    res.status(401).json({
       error: true,
       message: (error as Error).message
     });
