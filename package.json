@@ -2,11 +2,11 @@
   "name": "server_shop_ecommerce",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./dist/index.js",
-    "dev": "nodemon -r tsconfig-paths/register --exec ts-node index.ts",
+    "dev": "nodemon -r tsconfig-paths/register --exec ts-node src/index.ts",
     "build": "tsc"
   },
   "keywords": [],

@@ -5,6 +5,7 @@ const supplierSchema = new Schema({
     type: String,
     required: true
   },
+  slug: String,
   product: String,
   categories: {
     type: [String]
@@ -17,6 +18,10 @@ const supplierSchema = new Schema({
     enum: [0,1]
   },
   photoUrl: String,
+  isDelete: {
+    type: Boolean,
+    default: false
+  },
   creatdAt: {
     type: Date,
     default: Date.now()

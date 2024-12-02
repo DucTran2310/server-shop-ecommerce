@@ -1,6 +1,7 @@
 import { checkSchema } from 'express-validator';
 
-export const addNewSupplierValidate = checkSchema({
+// Tách phần schema chung
+const supplierBaseSchema = {
   name: {
     isString: {
       errorMessage: 'Tên nhà cung cấp phải là một chuỗi.',
@@ -22,7 +23,7 @@ export const addNewSupplierValidate = checkSchema({
     },
     optional: true,
     custom: {
-      options: (value) => {
+      options: (value: any) => {
         if (value && !Array.isArray(value)) {
           throw new Error('Danh mục phải là một mảng chuỗi.');
         }
@@ -58,4 +59,33 @@ export const addNewSupplierValidate = checkSchema({
     },
     optional: true,
   },
-}, ['body'])
+};
+
+export const addNewSupplierValidate = checkSchema({
+  ...supplierBaseSchema
+}, ['body']);
+
+export const updateSupplierValidate = checkSchema({
+  id: {
+    in: ['query'],
+    notEmpty: {
+      errorMessage: 'ID nhà cung cấp là bắt buộc.',
+    },
+    isString: {
+      errorMessage: 'ID nhà cung cấp phải là một chuỗi.',
+    },
+  },
+  ...supplierBaseSchema
+}, ['body', 'query']);
+
+export const deleteSupplierValidate = checkSchema({
+  id: {
+    in: ['query'],
+    notEmpty: {
+      errorMessage: 'ID nhà cung cấp là bắt buộc.',
+    },
+    isString: {
+      errorMessage: 'ID nhà cung cấp phải là một chuỗi.',
+    },
+  },
+}, ['query']);

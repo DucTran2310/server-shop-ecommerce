@@ -77,7 +77,10 @@ export const SUPPLIER_MESSAGE = {
   //Validate
 
   //Message success
-  ADD_NEW_SUPPLIER_SUCCESS: "Thêm nhà cung cấp thành công"
+  ADD_NEW_SUPPLIER_SUCCESS: "Thêm nhà cung cấp thành công",
+  GET_LIST_SUPPLIERS_SUCCESS: "Lấy danh sách nhà cung cấp thành công",
+  UPDATE_SUPPLIER_SUCCESS: "Cập nhật nhà cung cấp thành công",
+  DELETE_SUPPLIER_SUCCESS: "Xóa nhà cung cấp thành công"
 } as const
 
 export const SERVER_MESSAGE = {
@@ -85,7 +88,7 @@ export const SERVER_MESSAGE = {
 } as const
 
 export const ERROR_MESSAGE = {
-  NOT_PERMISSION: "Bạn không có quyền truy cập"
+  NOT_PERMISSION: "Bạn không có quyền truy cập. Vui lòng đăng nhập để tiếp tục."
 }
 
 export const DEFAULT_MESSAGE = {
