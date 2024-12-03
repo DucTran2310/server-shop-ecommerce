@@ -15,8 +15,10 @@ const supplierSchema = new Schema({
   isTaking: {
     type: Number,
     default: 0,
-    enum: [0,1]
+    enum: [0, 1]
   },
+  email: String,
+  active: Number,
   photoUrl: String,
   isDelete: {
     type: Boolean,
