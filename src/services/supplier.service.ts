@@ -17,9 +17,27 @@ class SupplierService {
     return newSupplier
   }
 
-  async getListSuppliers() {
-    const suppliers = await SupplierModel.find({ isDelete: { $ne: true } }).select('-isDelete')
-    return suppliers
+  async getListSuppliers(query: { pageSize?: number, page?: number }) {
+    const { pageSize = 10, page = 1 } = query // Giá trị mặc định nếu không có query
+
+    const skip = (page - 1) * pageSize
+
+    const suppliers = await SupplierModel.find({ isDelete: { $ne: true } })
+      .select('-isDelete')
+      .limit(pageSize)
+      .skip(skip)
+
+    const total = await SupplierModel.countDocuments({ isDelete: { $ne: true } })
+
+    return {
+      suppliers,
+      pagination: {
+        total,
+        page,
+        pageSize,
+        totalPages: Math.ceil(total / pageSize)
+      }
+    }
   }
 
   async updateSupplier(id: string, body: SupplierRequestAddType) {

@@ -24,7 +24,9 @@ const getListSuppliersController = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const data = await supplierService.getListSuppliers();
+  console.log(req.query)
+  const { pageSize, page } = req.query;
+  const data = await supplierService.getListSuppliers({ pageSize: Number(pageSize), page: Number(page) });
 
   return sendSuccessResponse(
     res,
