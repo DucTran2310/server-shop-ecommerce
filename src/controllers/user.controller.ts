@@ -27,7 +27,7 @@ const login = async (req: Request, res: Response, next: NextFunction): Promise<v
 
 const loginWithGoogle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
-  const data = usersService.loginWithGoogle(req)
+  const data = await usersService.loginWithGoogle(req)
   return sendSuccessResponse(res, data, USER_MESSAGE.LOGIN_SUCCESS);
 }
 

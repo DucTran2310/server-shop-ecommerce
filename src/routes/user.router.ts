@@ -7,7 +7,7 @@ const router = Router()
 
 router.post('/register', registerValidate, handleValidationErrors, register)
 router.post('/login', loginValidate, handleValidationErrors, login)
-router.post('/google-login', loginWithGoogle)
+router.post('/google-login', handleValidationErrors, loginWithGoogle)
 router.get('/refresh-token', refreshTokenValidate, handleValidationErrors, refreshToken)
 
 export default router

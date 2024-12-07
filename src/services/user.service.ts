@@ -96,7 +96,6 @@ class UsersService {
       }
 
       return data
-
     } else {
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(generatorRandomText(6), salt);
